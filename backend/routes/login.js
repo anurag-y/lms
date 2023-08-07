@@ -1,10 +1,8 @@
 // routes/login.js
-
 const express = require('express');
-const bcrypt = require('bcrypt');
 const User = require('../models/auth');
 const router = express.Router();
-
+const bcrypt = require('bcrypt');
 // Log-in route
 router.post('/login', async (req, res) => {
   try {

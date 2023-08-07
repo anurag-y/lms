@@ -8,6 +8,8 @@ app.use(express.urlencoded({ extended: true }));
 const path = require('path');
 app.set('views', path.join(__dirname, '../frontend', 'views'));
 app.set('view engine', 'ejs');
+//link ejs to css in public folder 
+app.use(express.static(path.join(__dirname, '../frontend', 'public')));
 const authRouter = require('./routes/signup'); // Import the signup router
 const loginRouter = require('./routes/login');
 app.use('/auth', authRouter);
@@ -22,7 +24,7 @@ connectToDatabase();
 
 // Basic route for testing server
 app.get('/', (req, res) => {
-  res.send('Library Book Tracking System');
+  res.render('index'); // Render the index template
 });
 app.get('/signup', (req, res) => {
     res.render('signup'); // Render the signup template
