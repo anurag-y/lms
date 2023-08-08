@@ -1,10 +1,24 @@
 // routes/login.js
 const express = require('express');
 const User = require('../models/auth');
-const router = express.Router();
+const loginRouter = express.Router();
 const bcrypt = require('bcrypt');
+const cookieSession = require('cookie-session');
 // Log-in route
-router.post('/login', async (req, res) => {
+loginRouter.use(
+  cookieSession({
+    name: 'session',
+    keys: ['your-secret-key'],
+    maxAge: 24 * 60 * 60 * 1000, // Session expiration time in milliseconds (1 day)
+  })
+);
+const requireAuth = (req, res, next) => {
+  if (!req.session.authenticated) {
+    return res.redirect('/login'); // Redirect to login page if not authenticated
+  }
+  next();
+};
+loginRouter.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -16,10 +30,15 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Authentication failed' });
     }
 
+    // Set session data upon successful login
+    req.session.authenticated = true;
+    req.session.userId = user.id; // Store user ID or other relevant data
+
     res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }
 });
 
-module.exports = router;
+
+module.exports = {loginRouter, requireAuth};
