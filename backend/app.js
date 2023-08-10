@@ -15,6 +15,7 @@ const authRouter = require('./routes/signup'); // Import the signup router
 const {requireAuth, loginRouter} = require('./routes/login');
 const newAdminRouter = require('./routes/adm_signup'); // Import the signup router
 const { router: admLoginRouter, requireAdminAuth } = require('./routes/adm_login');
+const bookRouter = require('./routes/books');
 
 app.use(
   cookieSession({
@@ -27,13 +28,10 @@ app.use('/auth', admLoginRouter);
 app.use('/auth', authRouter);
 app.use('/auth', loginRouter);
 app.use('/auth', newAdminRouter);
+app.use('/books', bookRouter);
 
 const connectToDatabase = require('./config/database'); // Import the function
 connectToDatabase();
-
-
-
-
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -78,14 +76,13 @@ app.get('/about', (req, res) => {
   // This route is protected and can only be accessed by authenticated users
   res.render('about');
 });
-
-
 app.get('/logout', (req, res) => {
   req.session = null; // Clear the session data
   res.redirect('/'); // Redirect to a page (e.g., home) after logout
 });
-
-
+app.get('/catalog', (req, res) => {
+  res.render('catalog');
+});
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
