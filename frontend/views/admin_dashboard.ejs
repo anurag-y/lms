@@ -3,9 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <title>Admin Dashboard - Library Management System</title>
 </head>
 <body>
-    <h1>Coming Soon</h1>
+    <header class="header">
+        <h1 class="website-name">Admin Dashboard</h1>
+        <p class="description">Welcome, Admin! Manage the library efficiently.</p>
+    </header>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="#">Manage Catalog</a></li>
+            <li><a href="#">Manage Authors</a></li>
+            <li><a href="#">Manage Subjects</a></li>
+            <li><a href="#">User Management</a></li>
+            <li><a href="/about">About Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <div class="statistics-box">
+            <h2 class="box-title">Library Statistics</h2>
+            <p class="statistic">Total Books: 1200</p>
+            <p class="statistic">Available Books: 850</p>
+            <p class="statistic">Checked-out Books: 350</p>
+        </div>
+        <div class="activity-log-box">
+            <h2 class="box-title">Recent Activities</h2>
+            <ul class="activity-list">
+                <li>User "JohnDoe" checked out "The Alchemist".</li>
+                <li>Added new book: "Educated" by Tara Westover.</li>
+                <!-- Add more recent activities here -->
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2023 Library Management System. Developed by Anurag Yadav</p>
+    </footer>
 </body>
 </html>

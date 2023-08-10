@@ -18,13 +18,20 @@ const requireAuth = (req, res, next) => {
   }
   next();
 };
+
+const userLogout = (req, res, next) => {
+  if (!req.session.authenticated) {
+    return res.redirect('/login'); // Redirect to login page if not authenticated
+  }
+  next();
+};
+
 loginRouter.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
     // Find the user by email
     const user = await User.findOne({ email });
-
     // If user doesn't exist or password is incorrect
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ error: 'Authentication failed' });
@@ -33,8 +40,8 @@ loginRouter.post('/login', async (req, res) => {
     // Set session data upon successful login
     req.session.authenticated = true;
     req.session.userId = user.id; // Store user ID or other relevant data
-
-    res.status(200).json({ message: 'Logged in successfully' });
+    res.redirect('/user_dashboard'); // Redirect to dashboard page on successful login
+    res.status(200);
   } catch (error) {
     res.status(500).json({ error: 'An error occurred' });
   }

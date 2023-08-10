@@ -12,8 +12,8 @@ app.set('views', path.join(__dirname, '../frontend', 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, '../frontend', 'public')));
 const authRouter = require('./routes/signup'); // Import the signup router
-const newAdminRouter = require('./routes/adm_signup'); // Import the signup router
 const {requireAuth, loginRouter} = require('./routes/login');
+const newAdminRouter = require('./routes/adm_signup'); // Import the signup router
 const { router: admLoginRouter, requireAdminAuth } = require('./routes/adm_login');
 
 app.use(
@@ -34,35 +34,47 @@ connectToDatabase();
 
 
 
-// Basic route for testing server
+
 app.get('/', (req, res) => {
-  res.render('index'); // Render the index template
+  res.render('index');
 });
 app.get('/signup', (req, res) => {
-    res.render('signup'); // Render the signup template
+    res.render('signup');
   });
   
-  // Log-in route
+
   app.get('/login', (req, res) => {
-    res.render('login'); // Render the login template
+    req.session.adminAuthenticated = false; //if user logins admin should be logged out
+    res.render('login'); 
+
   });
+  app.get('/logout', (req, res) => {
+    req.session.authenticated = false; 
+    res.redirect('/'); 
+  });
+  
   app.get('/adm_login', (req, res) => {
+    req.session.authenticated = false; //if admin logins user should be logged out
     res.render('adm_login'); // Render the login template
   });
  app.get('/adm_signup', (req, res) => {
     res.render('adm_signup'); // Render the login template
   });
-    
+  
 
-  app.get('/admin/dashboard', requireAdminAuth, (req, res) => {
+  app.get('/admin_dashboard', requireAdminAuth, (req, res) => {
     // This route is protected and can only be accessed by authenticated admin
     res.render('admin_dashboard');
+  });
+  app.get('/user_dashboard', requireAuth, (req, res) => {
+    // This route is protected and can only be accessed by authenticated admin
+    res.render('user_dashboard');
   });
 
 
   // Middleware to check authentication status
 // Use the middleware for protected routes
-app.get('/about', requireAuth, (req, res) => {
+app.get('/about', (req, res) => {
   // This route is protected and can only be accessed by authenticated users
   res.render('about');
 });

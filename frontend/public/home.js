@@ -22,3 +22,28 @@ function changeContent() {
 }
 
 setInterval(changeContent, 5000); // Change content every 5 seconds
+
+const userlogin = document.getElementById('user');
+userlogin.addEventListener('click', function (event) {
+  event.preventDefault(); // Prevent the default link behavior
+
+  const confirmation = confirm('Are you sure you want to login as user? This will end your session as admin (if any).');
+
+  if (confirmation) {
+    window.location.href = '/user_dashboard'; // Redirect if user agrees
+  }
+});
+const adminlogin = document.getElementById('admin');
+adminlogin.addEventListener('click', function (event) {
+  event.preventDefault(); // Prevent the default link behavior
+
+  const confirmation = confirm('Are you sure you want to login as admin? This will end your session as user (if any).');
+
+  if (confirmation) {
+    window.location.href = '/admin_dashboard'; // Redirect if user agrees
+  }
+});
+
+
+
+

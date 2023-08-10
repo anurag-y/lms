@@ -21,7 +21,6 @@ const requireAdminAuth = (req, res, next) => {
   }
   next();
 };
-
 // Admin login route
 router.post('/adm_login', async (req, res) => {
     try {
@@ -39,7 +38,9 @@ router.post('/adm_login', async (req, res) => {
   
       if (passwordMatch) {
         req.session.adminAuthenticated = true;
-        return res.status(200).json({ message: 'Admin logged in successfully' });
+        //render admin dashboard
+        res.redirect('/admin_dashboard');      
+        return res.status(200);
       } else {
         return res.status(401).json({ error: 'Authentication failed' });
       }
