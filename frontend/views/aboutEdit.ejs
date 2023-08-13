@@ -1,3 +1,4 @@
+<!-- views/edit_about.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,28 +16,18 @@
     <nav class="navbar">
         <ul>
             <li><a href="/manage_catalog">Manage Catalog</a></li>
+            <li><a href="#">Manage Subjects</a></li>
             <li><a href="#">User Management</a></li>
             <li><a href="/adm_signup">Add new admin</a></li>
             <li><a href="/aboutEdit">About Us (edit)</a></li>
-            <li><a href="/adm_logout">Admin Logout</a></li>
         </ul>
     </nav>
 
     <div class="content">
-        <div class="statistics-box">
-            <h2 class="box-title">Library Statistics</h2>
-            <p class="statistic">Total Books: 1200</p>
-            <p class="statistic">Available Books: 850</p>
-            <p class="statistic">Checked-out Books: 350</p>
-        </div>
-        <div class="activity-log-box">
-            <h2 class="box-title">Recent Activities</h2>
-            <ul class="activity-list">
-                <li>User "JohnDoe" checked out "The Alchemist".</li>
-                <li>Added new book: "Educated" by Tara Westover.</li>
-                <!-- Add more recent activities here -->
-            </ul>
-        </div>
+        <form action="/aboutEdit/" method="POST">
+            <textarea name="content" rows="10"><%= aboutContent ? aboutContent.content : '' %></textarea>
+            <button type="submit">Update Content</button>
+          </form>        
     </div>
 
     <footer class="footer">

@@ -14,8 +14,10 @@ app.use(express.static(path.join(__dirname, '../frontend', 'public')));
 const authRouter = require('./routes/signup'); // Import the signup router
 const {requireAuth, loginRouter} = require('./routes/login');
 const newAdminRouter = require('./routes/adm_signup'); // Import the signup router
+const aboutRouter = require('./routes/aboutEdit');
 const { router: admLoginRouter, requireAdminAuth } = require('./routes/adm_login');
 const bookRouter = require('./routes/books');
+const userRouter = require('./routes/about'); // Import the user route
 
 app.use(
   cookieSession({
@@ -29,6 +31,9 @@ app.use('/auth', authRouter);
 app.use('/auth', loginRouter);
 app.use('/auth', newAdminRouter);
 app.use('/books', bookRouter);
+app.use('/aboutEdit', aboutRouter);
+app.use('/about', userRouter);
+
 
 const connectToDatabase = require('./config/database'); // Import the function
 connectToDatabase();
@@ -43,7 +48,11 @@ app.get('/signup', (req, res) => {
 
   app.get('/login', (req, res) => {
     req.session.adminAuthenticated = false; //if user logins admin should be logged out
-    res.render('login'); 
+    if(req.session.authenticated) {
+      res.redirect('/user_dashboard');
+    } else {
+    res.render('login');
+    } // Render the login template
 
   });
   app.get('/logout', (req, res) => {
@@ -53,9 +62,18 @@ app.get('/signup', (req, res) => {
   
   app.get('/adm_login', (req, res) => {
     req.session.authenticated = false; //if admin logins user should be logged out
-    res.render('adm_login'); // Render the login template
+    if(req.session.adminAuthenticated) {
+      res.redirect('/admin_dashboard');
+    } else {
+    res.render('adm_login');
+    } // Render the login template
   });
- app.get('/adm_signup', (req, res) => {
+app.get('/adm_logout', (req, res) => {
+  req.session.adminAuthenticated = false;
+  res.redirect('/');
+});
+
+ app.get('/adm_signup', requireAdminAuth, (req, res) => {
     res.render('adm_signup'); // Render the login template
   });
   
@@ -76,9 +94,17 @@ app.get('/about', (req, res) => {
   // This route is protected and can only be accessed by authenticated users
   res.render('about');
 });
+app.get('/aboutEdit', requireAdminAuth, (req, res) => {
+  // This route is protected and can only be accessed by authenticated users
+  res.render('aboutEdit');
+});
+
 app.get('/logout', (req, res) => {
   req.session = null; // Clear the session data
   res.redirect('/'); // Redirect to a page (e.g., home) after logout
+});
+app.get('/manage_catalog',requireAdminAuth, (req, res) => {
+  res.render('manage_catalog');
 });
 app.get('/catalog', (req, res) => {
   res.render('catalog');
