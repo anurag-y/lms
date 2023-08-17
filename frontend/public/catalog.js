@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayBooks = async () => {
         bookList.innerHTML = '';
 
-        const response = await fetch('/books');
+        const response = await fetch('/userbooks');
         const books = await response.json();
 
         const tableBody = document.getElementById('book-list');
@@ -26,21 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const actionsCell = row.insertCell();
             const borrowButton = document.createElement('button');
             borrowButton.textContent = 'Borrow';
-            // borrowButton.addEventListener('click', async () => {
-            //     const response = await fetch(`/books/${book._id}`, {
-            //         method: 'DELETE'
-            //     });
-
-            //     if (response.ok) {
-            //         displayBooks(); // Refresh the list after deletion
-            //     }
-            // });
             actionsCell.appendChild(borrowButton);
         });
         
     };
 
-
-    // Initial display of available books
     displayBooks();
 });

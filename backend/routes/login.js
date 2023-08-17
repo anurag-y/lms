@@ -40,6 +40,8 @@ loginRouter.post('/login', async (req, res) => {
     // Set session data upon successful login
     req.session.authenticated = true;
     req.session.userId = user.id; // Store user ID or other relevant data
+    req.session.userEmail = user.email;
+    console.log('logged in with', req.session.userEmail);
     res.redirect('/user_dashboard'); // Redirect to dashboard page on successful login
     res.status(200);
   } catch (error) {

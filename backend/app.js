@@ -18,7 +18,8 @@ const aboutRouter = require('./routes/aboutEdit');
 const { router: admLoginRouter, requireAdminAuth } = require('./routes/adm_login');
 const bookRouter = require('./routes/books');
 const userRouter = require('./routes/about'); // Import the user route
-
+const profileRouter = require('./routes/profile'); // Import the profile route
+const userbooksRouter = require('./routes/userbooks'); // Import the userbooks route
 app.use(
   cookieSession({
     name: 'session',
@@ -30,9 +31,11 @@ app.use('/auth', admLoginRouter);
 app.use('/auth', authRouter);
 app.use('/auth', loginRouter);
 app.use('/auth', newAdminRouter);
-app.use('/books', bookRouter);
-app.use('/aboutEdit', aboutRouter);
+app.use('/books',requireAdminAuth, bookRouter);
+app.use('/aboutEdit',requireAdminAuth, aboutRouter);
 app.use('/about', userRouter);
+app.use('/profile', profileRouter);
+app.use('/userbooks', userbooksRouter);
 
 
 const connectToDatabase = require('./config/database'); // Import the function
@@ -83,25 +86,21 @@ app.get('/adm_logout', (req, res) => {
     res.render('admin_dashboard');
   });
   app.get('/user_dashboard', requireAuth, (req, res) => {
-    // This route is protected and can only be accessed by authenticated admin
-    res.render('user_dashboard');
+    //render user dashboard and pass the userid
+    res.render('user_dashboard', {userEmail: req.session.userEmail});
   });
 
 
-  // Middleware to check authentication status
-// Use the middleware for protected routes
 app.get('/about', (req, res) => {
-  // This route is protected and can only be accessed by authenticated users
   res.render('about');
 });
 app.get('/aboutEdit', requireAdminAuth, (req, res) => {
-  // This route is protected and can only be accessed by authenticated users
   res.render('aboutEdit');
 });
 
 app.get('/logout', (req, res) => {
-  req.session = null; // Clear the session data
-  res.redirect('/'); // Redirect to a page (e.g., home) after logout
+  req.session = null;
+  res.redirect('/'); 
 });
 app.get('/manage_catalog',requireAdminAuth, (req, res) => {
   res.render('manage_catalog');
@@ -109,7 +108,7 @@ app.get('/manage_catalog',requireAdminAuth, (req, res) => {
 app.get('/catalog', (req, res) => {
   res.render('catalog');
 });
-// Start the server
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
