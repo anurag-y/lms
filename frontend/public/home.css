@@ -24,6 +24,10 @@ body {
     font-size: 32px;
     margin: 0;
 }
+.website-name a{
+    text-decoration: none;
+    color: white;
+}
 
 .description {
     font-size: 16px;

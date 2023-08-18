@@ -109,6 +109,11 @@ app.get('/catalog', (req, res) => {
   res.render('catalog');
 });
 
+app.get('/borrow/:uniqueCode',requireAuth, (req, res) => {
+  const { uniqueCode } = req.params;
+    res.render('borrow', { uniqueCode });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

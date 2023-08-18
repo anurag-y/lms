@@ -45,6 +45,11 @@ body {
     margin: 0;
 }
 
+.website-name a{
+    text-decoration: none;
+    color: white;
+}
+
 .navbar a {
     text-decoration: none;
     color: white;
