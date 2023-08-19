@@ -111,7 +111,7 @@ app.get('/catalog', (req, res) => {
 
 app.get('/borrow/:uniqueCode',requireAuth, (req, res) => {
   const { uniqueCode } = req.params;
-    res.render('borrow', { uniqueCode });
+    res.render('borrow', { uniqueCode, userEmail: req.session.userEmail });
 });
 
 const PORT = process.env.PORT || 3000;
