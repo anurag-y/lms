@@ -29,8 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             actionsCell.appendChild(borrowButton);
             borrowButton.addEventListener('click', async () => {
                 //redirect to borrow page with book unique code
-                window.location.href = `/borrow/${book.uniqueCode}
-                `;
+                window.location.href = `/borrow/${book.uniqueCode}`;
             });
 
         });
