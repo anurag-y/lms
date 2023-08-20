@@ -113,10 +113,9 @@ app.get('/borrow/:uniqueCode',requireAuth, (req, res) => {
   const { uniqueCode } = req.params;
     res.render('borrow', { uniqueCode, userEmail: req.session.userEmail });
 });
-
+const ipAddress = "10.12.9.7";
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, ipAddress, () => {
+  console.log(`Server started on http://${ipAddress}:${PORT}`);
 });
-
 

@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
       body: JSON.stringify({ email, name }),
     });
     const data = await response.json();
-    console.log(data.message);
+    displayUserDetails();
   }
 
 
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     if (newName) {
       updateUsername(userEmail, newName);  
-      displayUserDetails();
+      
     }
   });
   
