@@ -20,6 +20,7 @@ const bookRouter = require('./routes/books');
 const userRouter = require('./routes/about'); // Import the user route
 const profileRouter = require('./routes/profile'); // Import the profile route
 const userbooksRouter = require('./routes/userbooks'); // Import the userbooks route
+const otpRouter = require('./routes/otp.js'); // Import the borrow route
 app.use(
   cookieSession({
     name: 'session',
@@ -36,6 +37,7 @@ app.use('/aboutEdit',requireAdminAuth, aboutRouter);
 app.use('/about', userRouter);
 app.use('/profile', profileRouter);
 app.use('/userbooks', userbooksRouter);
+app.use('/otp', otpRouter);
 
 
 const connectToDatabase = require('./config/database'); // Import the function
