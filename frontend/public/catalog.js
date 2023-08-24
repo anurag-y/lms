@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const statusCell = row.insertCell();
             statusCell.textContent = book.available ? 'Available' : 'Not Available';
             const actionsCell = row.insertCell();
+            if (!book.available) {
+                return;
+            }
             const borrowButton = document.createElement('button');
             borrowButton.textContent = 'Borrow';
             actionsCell.appendChild(borrowButton);

@@ -1,11 +1,9 @@
 var userDataElement = document.getElementById('user-data');
 var userEmail = userDataElement.getAttribute('data-user-email');
+var bookID = userDataElement.getAttribute('book-id');
 var enteredOTP;
-
-document.getElementById('otp-button').addEventListener('click', async () => {
-    
-    console.log('email', userEmail);
-    
+var verified= false
+document.getElementById('otp-button').addEventListener('click', async () => {    
     const response = await fetch('/otp/send-otp', {
         method: 'POST',
         headers: {
@@ -43,7 +41,7 @@ function focusNextInput(currentInput) {
     
   }
 document.getElementById('verify-otp-button').addEventListener('click', async () => {
-    console.log('enteredOTP', enteredOTP);
+
     const response = await fetch('/otp/verify-otp', {
         method: 'POST',
         headers: {
@@ -54,4 +52,31 @@ document.getElementById('verify-otp-button').addEventListener('click', async () 
 
     const result = await response.json();
     alert(result.message);
+    if(result.success){
+        verified=true;
+    }
+});
+
+const borrowButton = document.getElementById('borrow-button');
+borrowButton.addEventListener('click', async () => {
+    if(!verified){
+        alert("Please verify OTP first");
+        return;
+    }
+  try {
+    const response = await fetch(`/bookBorrow/${userEmail}/${bookID}`, {
+      method: 'POST',
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        alert(data.message);
+        window.location.href = '/user_dashboard';
+    } else {
+      alert(data.message);
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
 });

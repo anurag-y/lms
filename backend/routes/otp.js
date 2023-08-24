@@ -1,5 +1,4 @@
 //routes/borrow.js
-
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
@@ -46,7 +45,7 @@ router.post('/send-otp/', (req, res) => {
 router.post('/verify-otp/', (req, res) => {
     const otp = req.body.enteredOTP;
     if(Date.now() - lastOTPtime > 300000) {
-        res.json({ success: false, message: 'OTP expired. Please try again.' });
+        res.json({ success: false, message: 'Either otp not generated or expired. Please generate a new OTP.' });
         return;
     }
     if(otp == lastOTP) {
