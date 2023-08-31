@@ -38,9 +38,10 @@ html, body {
   
 
 button {
-    background-color: #007bff;
+    background-color: #3c6c1f;
     color: #fff;
     border: none;
+    border-radius: 10px;
     padding: 10px 20px;
     cursor: pointer;
   }
@@ -135,4 +136,9 @@ button {
   #editNameButton:hover {
     background-color: #0056b3;
   }
+  #editNameButton:active {
+    background-color: #0056b3;
+  }
+
+ 
   

@@ -5,11 +5,9 @@ const User=require('../models/auth')
 const { requireAuth } = require('./login');
 
 router.post('/:userEmail/:bookID', async (req, res) => {
-    console.log("in borrow route");
   try {
     const userEmail = req.params.userEmail;
-    const bookCode = req.params.bookID;
-
+    const bookCode = req.params.bookID;  
     const user = await User.findOne({ email: userEmail });
     const book = await Book.findOne({ uniqueCode: bookCode });
 
@@ -24,7 +22,7 @@ router.post('/:userEmail/:bookID', async (req, res) => {
     // Update book availability status and add to user's issuedBooks
     book.available = false;
     user.issuedBooks.push({
-      bookID: book._id,
+      bookID: bookCode,
       issueDate: new Date(),
       returned: false,
     });

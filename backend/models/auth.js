@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
-  bookID: {
+  bookID: {  //same as uniquCode in BookSchema
     type: String,
     required: true,
   },
